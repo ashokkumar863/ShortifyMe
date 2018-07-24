@@ -24,10 +24,10 @@ namespace UrlShortner {
       }
     }
 
-    public bool IsExist()
+    public bool IsExist(string shortUrlCode)
     {
       try {
-        string sql = "INSERT INTO student (name) values (@name)";
+        string sql = $"select count(*) from dbo.Records where shorturl='{shortUrlCode}'";
         ConnectionManager.Connection.Open();
         SqlCommand cmd = new SqlCommand( sql, ConnectionManager.Connection );
         SqlDataReader dataReader = cmd.ExecuteReader();
@@ -39,9 +39,19 @@ namespace UrlShortner {
       }
     }
 
-    public ShortenResponse Retrive()
-    {
-      return null;
-    }
-  }
+    public ShortenResponse Retrive(string  shortUrlCode)
+    {     
+        string sql = $"select * from dbo.Records where shorturl='{shortUrlCode}'";
+        ConnectionManager.Connection.Open();
+        SqlCommand cmd = new SqlCommand(sql, ConnectionManager.Connection);
+        SqlDataReader dataReader = cmd.ExecuteReader();
+        return dataReader.HasRows
+          ? new ShortenResponse
+          {
+            ShortUrl = dataReader.GetValue(0).ToString(),
+            MainUrl = dataReader.GetValue(1).ToString()
+          }
+          : null;
+      }   
+    } 
 }
