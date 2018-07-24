@@ -13,7 +13,7 @@ namespace UrlShortner {
 
     private ConnectionManager()
     {        
-      string connString = "Persist Security Info = False;Initial Catalog = SCR_Data; Server = ASHOK\\SQLEXPRESS;Integrated Security=true;MultipleActiveResultSets=true";
+      string connString = "Persist Security Info = False;Initial Catalog = shortifyme; Server = ASHOK\\SQLEXPRESS;Integrated Security=true;MultipleActiveResultSets=true";
       connection = new SqlConnection( connString );
     }
 

@@ -8,6 +8,7 @@ namespace UrlShortner {
   public class ShortCodeGenerator {
     public ShortenResponse GetShortUrl(ShortenRequest urlShortenRequest)
     {
+      ShortenResponse response;
       if (!CheckUrlIsValidorNot(urlShortenRequest.MainUrl))
       {
         return new ShortenResponse
@@ -17,13 +18,15 @@ namespace UrlShortner {
         };
       }
 
-      return new ShortenResponse
+      response= new ShortenResponse
       {
         StatusMessage = "Success",
         StatusCode = 1,
         ShortUrl = new RandomStringGenerator().GetRandomString(),
         MainUrl = urlShortenRequest.MainUrl
       };
+      new DbOperations().Insert(response);
+      return response;
 
     }
 

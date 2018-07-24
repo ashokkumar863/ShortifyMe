@@ -1,6 +1,6 @@
 ﻿<html>
 <head>
-    <script src="~/Scripts/jquery-3.3.1.slim.min.js"></script>
+    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
     <script src="~/Scripts/popper.min.js" ></script>
     <link rel="stylesheet" href="~/Styles/bootstrap.min.css" />
     <script src="~/Scripts/bootstrap.min.js"></script>
@@ -26,7 +26,44 @@
             </ul>
         </div>
     </nav>
+    <br/><br/>
+    <div class="col-md-12">
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroup-sizing-default">URL</span>
+            </div>
+            <input id="url" type="url" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+            <button type="button" style="margin-left: 5px" class="btn btn-primary" onclick="GenerateShortUrl();">Generate :)</button>
+        </div>
+    </div>
+    
+    <div class="col-md-12" id="output-section" style="display: none">
+        <div class="jumbotron">
+            <h4>Here you go :)</h4>
+            <a id="tiny-url" href="http://smarturl.me/m"><p id="tiny-url-content" class="h3">http://smarturl.me/m</p></a>
+        </div>
+    </div>
 </div>
+<script>
+    var request= {
+        mainUrl: null,
+        username: null,
+        hashKey:null
+    }
+    function GenerateShortUrl() {
+        var url = $("#url").val();
+        if (!url.startsWith("http://") && !url.startsWith("https://")) {
+            url = "http://" + url;
+        }
+        alert(url);
+        request.mainUrl = url;  
+        $.post( "api/shortifyme/getShortUrl",request, function( res ) {
+            $("#tiny-url").attr("href", "http://localhost/"+res.ShortUrl);
+            $("#tiny-url-content").html("http://localhost/" + res.ShortUrl);
+            $("#output-section").show();
+        });
+    }
+</script>
 </body>
 </html>
 

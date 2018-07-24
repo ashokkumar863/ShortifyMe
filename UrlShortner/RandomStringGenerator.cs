@@ -16,7 +16,7 @@ namespace UrlShortner {
 
     public bool CheckIfCodeExixsts(string code)
     {
-      return false;
+      return new DbOperations().IsExist(code);
     }
   }
 }
