@@ -55,11 +55,10 @@
         if (!url.startsWith("http://") && !url.startsWith("https://")) {
             url = "http://" + url;
         }
-        alert(url);
         request.mainUrl = url;  
         $.post( "api/shortifyme/getShortUrl",request, function( res ) {
-            $("#tiny-url").attr("href", "http://localhost/"+res.ShortUrl);
-            $("#tiny-url-content").html("http://localhost/" + res.ShortUrl);
+            $("#tiny-url").attr("href", window.location.href+res.ShortUrl);
+            $("#tiny-url-content").html(window.location.href + res.ShortUrl);
             $("#output-section").show();
         });
     }

@@ -25,7 +25,7 @@ namespace UrlShortner {
 
     public bool IsExist( string shortUrlCode ) {
       try {
-        string sql = $"select count(*) from dbo.Records where shorturl='{shortUrlCode}'";
+        string sql = $"select * from dbo.Records where shorturl='{shortUrlCode}'";
         ConnectionManager.Connection.Open();
         SqlCommand cmd = new SqlCommand( sql, ConnectionManager.Connection );
         SqlDataReader dataReader = cmd.ExecuteReader();
@@ -48,11 +48,13 @@ namespace UrlShortner {
       SqlDataReader dataReader = cmd.ExecuteReader();
       while (dataReader.Read())
       {
-        return new ShortenResponse
+        var response= new ShortenResponse
         {
           ShortUrl = dataReader.GetValue(0).ToString(),
           MainUrl = dataReader.GetValue(1).ToString()
         };
+        ConnectionManager.Connection.Close();
+        return response;
       }
       dataReader.Close();
       ConnectionManager.Connection.Close();
